@@ -7,3 +7,7 @@
 .md-typeset ul li, .md-typeset ol li {
     margin: 0 !important;
 }
+
+.md-typeset {
+    font-size: 0.7rem;
+}
