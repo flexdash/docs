@@ -60,6 +60,9 @@ Node-RED. In more detail, the command options do the following:
   installs the core widgets and brings node-red-flexdash in as a dependency, and
   `npm start ...` starts Node-RED
 
+This method of launching Node-RED is great for quickly trying something out from a clean slate.
+It takes a few seconds to start up and everything is gone at the end.
+
 ## Raspberry Pi
 
 !!! TODO
@@ -68,39 +71,171 @@ Node-RED. In more detail, the command options do the following:
 ## Keeping data and avoiding the reinstall
 
 The above command launches a truly throw-away container: once it terminates there's
-nothing left. For a more persistent set-up where you can "relaunch" the container yet
+nothing left. For a more persistent set-up where you can relaunch the container yet
 keep your flows and other data, such as file-based context stores, you need to provide
 a "data" directory to store all this independently of whether a container is running or
 not. Conveniently, the FlexDash modules can be installed in the data directory so they are
 persisted too and don't need to be reinstalled every time the container is launched.
 
-Create a data directory to store the persistent data, e.g., "./node-red-data". Then launch
-the container as follows:
+### Background on Node-RED directories
+
+Before laying out a solution it's worth understanding what can go where and how, because
+once that's understood the action plan becomes trivial and it becomes easy to tweak things
+slightly for different purposes.
+
+Node-RED primarily uses two directories: its home directory (or working directory) and
+its data directory. When running under docker these are `/usr/src/node-red` and `/data`, respectively.
+Node-RED itself is installed in the home dir, which may be read-only,
+and it places all user data in `/data`, which is assumed to be writable.
+
+Node.js, the programming framework used by Node-RED, expects code to be installed in a
+`node_modules` subdirectory. For example, Node-RED is actually found within
+`/usr/src/node-red/node_modules`. Because Node-RED assumes that its home dir may be read-only
+and it needs to be able to install additional packages it uses _two_ `node_modules`
+directories: the one in its home directory and also `/data/node_modules`.
+
+Finally, to install a package, change directory to the one _above_ `node_modules` and
+run `npm install <package>`.
+
+### The solution
+
+We want our data to persist, so we mount a host directory onto `/data`, this way when something gets
+written there it really is in that host directory.
+We also want the packages we install to persist, so we install them into `/data/node_modules`.
+We then want to repeatedly launch the Node-RED container using the persisted data and persisted
+module installation.
+
+To achieve this two different container runs will be necessary. The first one will install
+the desired packages and subsequent runs will just run Node-RED.
+For the first run, create a data directory to store the persistent data,
+for example `./node-red-data`. Then launch a container as follows:
+
+```
+docker run --rm -ti \
+  -v $PWD/node-red-data:/data \
+  --entrypoint bash \
+  nodered/node-red:2.2.2 \
+  -c "cd /data; npm i @flexdash/node-red-fd-corewidgets"
+```
+
+The only new options compared to the incantation at the top of this page is the -v:
+
+- `-v $PWD/node-red-data:/data` mounts the node-red-data subdirectory onto `/data` within
+  the container, i.e., any access to files under `/data` in the container will be rerouted
+  to `node-red-data` on the host. The paths must be absolute, so under unix `$PWD` will expand
+  to the current working directory. You can also just type out `/home/me/somedir/node-red-data` or
+  under Windows `C:\Users\me\node-red-data` (the part after the colon remains `/data` since that's
+  the path inside the container).
+
+This container will run for a few seconds and then exit. You will see the NPM install progress
+and also spit out some warnings, in particular "saveError ENOENT: no such file or directory,
+open '/data/package.json'". These warnings are due to the fact that we're installing into an
+empty directory, which is a bit of an odd usage.
+
+What this accomplishes is to install the chosen packages (here node-red-fd-corewidgets and its dependencies) using the version of npm installed in the container, which is the one Node-RED
+will also use.
+
+Now comes the second step, which is to actually launch Node-RED:
 
 ```
 docker run --rm -ti -p 1990:1880 \
   -v $PWD/node-red-data:/data \
-  --name my-node-red \
-  nodered/node-red:2.2.2"
+  --name flexdash-demo \
+  nodered/node-red:2.2.2
 ```
 
-The only new options compared to the previous incantation is the -v:
+This second incantation is quite simple: it just mounts the persisted data directory onto
+`/data` and starts Node-RED the standard way (plus gives the container a name so a
+`docker ls` shows something recognizable).
 
-- `-v $PWD/node-red-data:/data` mounts the node-red-data subdirectory onto `/data` within
-  the container, i.e., any access to files under `/data` in the container will be rerouted
-  to `node-red-data`. The paths must be absolute, so under unix `$PWD` will expand to the
-  current working directory. You can also just type out `/home/me/somedir/node-red-data` or
-  under Windows `C:\Users\me\node-red-data`.
+- To stop the container, hit Ctrl-C. It can be restarted anytime in the same manner.
+- To install additional packages, stop the Node-RED container, run the first incatation with
+  a modified npm commandline, then start the Node-RED container again.
+- To try a different version of Node-RED, just alter the `2.2.2` part and as long as the
+  versions are compatible, it should work.
+- To start from scratch, delete the `node-red-data` directory and start over.
 
-While the container is running and after it stops all the data will be in `node-red-data`.
-If you create some flows the next time you start the container again they will still be there.
-You can also start a slightly different version of Node-RED and assuming the versions are
-compatible it will work just fine.
+### Installing packages using the palette-manager
 
-In order to use FlexDash, open the menu (top-right corner) and choose "manage palette", then
-on the install tab, search for flexdash. Install `@flexdash/node-red-fd-corewidgets` and
-`@flexdash/node-red-flexdash`. You should now see the FlexDash core widgets in the node palette.
+Node-RED includes the ability to install packages from its web interface,
+specifically using the palette manager found in the top-right menu.
+The install tab allows to search for packages and a small install button installs
+them in the `data` directory just like the `npm install` command used above.
 
-Drag a `datetime` node into the flow and edit it. You will need to create a FlexDash container
-(grid), in there a FlexDash tab, and finally a FlexDash dashboard. The default options are OK
-for all of them. After you deploy, point a browser at http://localhost:1990/flexdash.
+In principle, this means that the first docker run above could be skipped, going straight to the
+second one, and then simply using the palette manager to install `node-red-fd-corewidgets`.
+
+Unfortunately, as of version 2.2.2 there is a bug, which is that the nodes found in
+dependencies are not installed. What this means is that if one installs
+`node-red-fd-corewidgets` then `node-red-flexdash` and `node-red-flexdash-plugins`
+are also installed, but the configuration nodes these two packages contain are not loaded
+resulting in a non-functional situation.
+
+There are two work-arounds:
+1. Explicitly install the dependencies: search for flexdash in the install tab and install
+   all three packages listed above.
+2. Install just the corewidgets package, then stop the container and restart it: Node-RED
+   will then pick-up the config nodes from the dependencies.
+
+### Using source directories
+
+There is one more tweak that is helpful when developing a new package, e.g. some new FlexDash widgets.
+In that case one needs Node-RED to use the package being developed from its source directory
+on the host.
+The assumed directory layout here is a `node-red-data` subdirectory for `/data` and a
+`node-red-fd-mywidgets` subdirectory with the new nodes and widgets.
+
+The first incantation to install the source package is very similar to the one above.
+The two twists are to map the source directory into the container (previously the packages
+came from the internet) and to perform a "link install", which creates a symbolic link in
+`node_modules` to the source directory (within the container, can't link to something outside).
+
+```
+docker run --rm -ti \
+  -v $PWD/node-red-data:/data \
+  -c $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
+  --entrypoint bash \
+  nodered/node-red:2.2.2 \
+  -c "cd /data; npm i ./node-red-fd-mywidgets"
+```
+
+On the host, looking at `node-red-data/node_modules` should show a symbolic link
+`node-red-fd-mywidgets` -> `../node-red-fd-mywidgets`. (If the `packages.json` has a
+`name` entry with a namespace then it will be a bit different. I named my
+package `@tve/node-red-fd-mywidgets` and thus ended up with
+`node-red-data/node_modules/@tve/node-red-fd-mywidgets` -> `../../node-red-fd-mywidgets`).
+
+!!! NOTE
+    The `package.json` in `node-red-fd-mywidgets` needs to have its dependencies right,
+    specifically, it needs to depend on `node-red-flexdash` so the latter gets installed
+    automatically!
+
+After this set-up (which could map multiple source package directories, btw) the Node-RED launch
+is a matter of mounting the appropriate source directories (and the data dir):
+
+```
+docker run --rm -ti -p 1990:1880 \
+  -v $PWD/node-red-data:/data \
+  -c $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
+  --name flexdash-demo \
+  nodered/node-red:2.2.2
+```
+
+!!! NOTE
+    When Node-RED is launched there is no npm install happening. Everything works assuming
+    no dependencies have changed because of the symbolic link. If the dependencies in the
+    source package's `package.json` are altered, then a re-run of the first incatation with
+    `npm i` is required.
+
+## Summary
+
+In the end, what the docker containers provide are:
+- a pre-packaged self-contained installation of Node-RED
+- an isolated filesystem namespace (directory tree) so arbitrary files on the host cannot be affected
+- a controlled way to map host directories into the container's namespace
+
+all the docker incantations described on this page basically map host directories into the
+container filesystem tree, run some `npm install` to install desired packages, and
+then run Node-RED.
+Hopefully the explanations allow you to customize and tweak docker to suit your needs!
+
