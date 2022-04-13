@@ -43,11 +43,11 @@ Node-RED. In more detail, the command options do the following:
 - `-rm` deletes the container after it stops
 - `-ti` keeps the container running in the foreground so you can see the Node-RED log and
   you can hit Ctrl-C to terminate.
-- `-p 1990:1880` maps the TCP port 1990 to the container's port 1880, which is the port on
+- `-p 1990:1880` maps the host's TCP port 1990 to the container's port 1880, which is the port on
   which Node-RED starts its web server. You can map 1880 to 1880 (`-p 1880:1880`), the example
   above uses a different port in order not to conflict with a regular Node-RED you may
   already have running. As you might guess, you can run multiple Node-RED containers
-  simultaneously to try out different things as long as you choose a different port an a
+  simultaneously to try out different things as long as you choose a different port and a
   different container name for each one.
 - `--entrypoint bash` runs a shell instead of directly launching Node-RED, which is what
   the Node-RED image does by default
@@ -193,7 +193,7 @@ came from the internet) and to perform a "link install", which creates a symboli
 ```
 docker run --rm -ti \
   -v $PWD/node-red-data:/data \
-  -c $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
+  -v $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
   --entrypoint bash \
   nodered/node-red:2.2.2 \
   -c "cd /data; npm i ./node-red-fd-mywidgets"
@@ -216,7 +216,7 @@ is a matter of mounting the appropriate source directories (and the data dir):
 ```
 docker run --rm -ti -p 1990:1880 \
   -v $PWD/node-red-data:/data \
-  -c $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
+  -v $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
   --name flexdash-demo \
   nodered/node-red:2.2.2
 ```
@@ -238,4 +238,49 @@ all the docker incantations described on this page basically map host directorie
 container filesystem tree, run some `npm install` to install desired packages, and
 then run Node-RED.
 Hopefully the explanations allow you to customize and tweak docker to suit your needs!
+
+## FAQ
+
+### I tried to combine the npm install in /data with launching Node-RED and it didn't work
+
+The command tried is:
+
+```
+docker run --rm -ti -p 1990:1880 \
+  -v C:\temp\fd_nr_data:/data \
+  -v C:\Users\Me\node-red-fd-test:/data/node-red-fd-test \
+  --entrypoint bash \
+  --name my-node-red \
+  nodered/node-red:2.2.2 \
+  -c "cd /data; npm i ./node-red-fd-test; npm start --cache /data/.npm -- -v -userDir /data"
+```
+
+Which produced this output:
+
+```
+[...]
+
++ ./node-red-fd-test@0.1.0
+added 105 packages from 129 contributors and audited 105 packages in 9.408s
+
+[...]
+
+npm ERR! enoent ENOENT: no such file or directory, open '/data/package.json'
+
+```
+
+#### Answer
+
+You can see that the npm install worked 'cause npm prints "updated 1 package".
+
+However, the `-c` commandline first performs `cd /data`, then `npm install`, and then tries to start
+Node-RED using an npm command. The latter looks up what "start" means in `package.json`, which isn't
+there in `/data`, and that produces an error.
+
+The `package.json` to start node-red is in `/usr/src/node-red` so one has to `npm start` there
+(it's the "working directory" of the container, so the bash shell starts there, that's why it works
+if there is no cd command).
+
+It is suggested to keep the install and the running separated in two container invocations.
+To join them one has to cd back before the npm start.
 
