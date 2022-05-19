@@ -11,3 +11,7 @@
 .md-typeset {
     font-size: 0.7rem;
 }
+
+.md-typeset figure {
+    text-align: left;
+}
