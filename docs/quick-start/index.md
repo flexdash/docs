@@ -1,20 +1,13 @@
-# FlexDash w/Node-RED Quick Start
+# FlexDash w/Node-RED: Quick Start
 
 To quickly try something out it is recommended to use docker.
-While docker can be confusing at the beginning, this quickstart attempts to provide enough
-examples and explanations to perform simple tasks.
-
+While docker can be confusing at the beginning, the [docker](docker.md) quick-start page
+attempts to provide enough examples and explanations to perform simple tasks without much
+prior knowledge.
 The big benefit of using docker is that it's easy to throw away tests and to start new tests
 from a clean sheet, i.e., known-good configuration.
 
-
-
 Alternatively, you can also easily install FlexDash on a regular Node-RED installation.
-
-!!! note
-    The Node-RED FlexDash nodes do not currently work under Windows (some paths
-    have '/' instead of '\'). This will be fixed soon. However, it all works great
-    using docker under Windows...
 
 ## Parts
 
@@ -31,8 +24,16 @@ FlexDash consists of a number of parts:
 
 ## Installing FlexDash in Node-RED
 
-To install FlexDash either `npm install node-red-fd-corewidgets` or use the "manage palette"
-feature in the Node-RED editor (in the top-right menu) to install "node-red-fd-corewidgets".
+For a non-docker set-up, install FlexDash using `npm install @flexdash/node-red-fd-corewidgets`,
+this will automatically pull-in the other necessary parts as dependencies.
+You can also use the "manage palette" feature in the Node-RED editor (in the top-right menu)
+to install "@flexdash/node-red-fd-corewidgets", however, a restart of Node-RED is required
+after the installation!
+
+!!! WARNING
+    If FlexDash (`@flexdash/node-red-fd-corewidgets`) is installed using the Node-RED editor's
+    "manage palette" feature then a restart of Node-RED is required for FlexDash to actually
+    function. This is due to [bug #569](https://github.com/node-red/node-red/issues/569) in Node-RED.
 
 The core widgets module comes with a set of example flows, which you can install using the
 Node-RED editor's "import" feature.

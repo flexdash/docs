@@ -21,3 +21,17 @@ plugins:
 
 extra_css:
   - extra.css
+
+nav:
+  - "Quick Start":
+    - quick-start/index.md
+    - quick-start/docker.md
+  - "Using FlexDash":
+    - 'using-flexdash/index.md'
+    - 'using-flexdash/core-concepts.md'
+    - 'using-flexdash/grid-panel-layout.md'
+    - 'using-flexdash/iframes.md'
+  - "Widget dev cheat Sheet":
+    - 'widget-dev-cheat-sheet/index.md'
+  - "Developing Widgets":
+    - 'developing-widgets/index.md'
