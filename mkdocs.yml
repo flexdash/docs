@@ -1,8 +1,8 @@
 site_name: FlexDash
 theme:
   name: material
-  icon: 
-    logo: material/view-dashboard
+  favicon: docs.png
+  logo: docs.png
   features:
     - navigation.instant
     - navigation.tracking
@@ -15,6 +15,9 @@ markdown_extensions:
   - pymdownx.superfences
   - attr_list
   - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
   - search
@@ -23,6 +26,8 @@ extra_css:
   - extra.css
 
 nav:
+  - index.md
+  - known-issues.md
   - "Quick Start":
     - quick-start/index.md
     - quick-start/docker.md

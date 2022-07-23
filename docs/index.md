@@ -1,4 +1,4 @@
-# FlexDash
+# Introduction
 
 FlexDash is a web dashboard that displays information in the form of widgets and lets the user
 perform actions with buttons and other controls.
@@ -16,3 +16,11 @@ latter is the primary focus of this documentation.
     systems, however the Node-RED integration of FlexDash uses FlexDash in a special
     constrained manner.
 
+## License
+
+FlexDash and its Node-RED integration use the MIT license, which means everything is free.
+FlexDash is not a free offering of some company withholding the good stuff for a paid
+version: what you see is what you get.
+There is no company behind FlexDash and there are no plans for one (been there, done that,
+don't want to do it again).
+Enjoy and contribute back! :beer:

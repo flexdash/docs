@@ -72,6 +72,6 @@ Switching to the FlexDash browser tab you should see the following.
 ## Next Steps
 
 - The other examples show variations for each of the widgets.
-- Read about FlexDash's [core concepts](/using-flexdash/core-concepts/).
+- Read about FlexDash's [core concepts](../using-flexdash/core-concepts.md).
 - Add some widgets and feed them data, see the "info" tab in the
   Node-RED flow editor for help on each of the widgets.

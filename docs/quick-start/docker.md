@@ -1,17 +1,34 @@
 # Docker
 
+<figure markdown>
+![docker logo](docker.png){width="20%" align="right"}
+
 _Running Node-RED and FlexDash in Docker_
 
-!!! TODO
-    Write a docker intro
+In the context of Node-RED [Docker](docker.com) is a virtualization layer that
+cleanly separates:
+
+1. the Node-RED installation
+2. your data on which Node-RED operates
+3. the rest of the application installed on your computer
+</figure>
+
+This clean separation means that:
+- you can easily try a new version/feature in Node-RED without affecting the rest of your computer or your existing Node-RED data
+- you can easily switch to a different version of Node-RED while keeping your data intact
+
+This page assumes docker is already installed, it is available on all platforms.
+The commandlines shown assume a linux shell (e.g. bash) but they work with minor
+modifications, e.g. to paths, on other platforms as well.
+_(Pull requests with Windows/Mac examples welcome!)_
 
 ## Hello World
 
 The following steps bring up a Node-RED instance with FlexDash installed.
 You can then import one of the built-in examples to explore FlexDash.
 
-Run the following command in your preferred shell (you can use the `\` or concatenate
-everything into one long commandline):
+Run the following command in your preferred shell (you can use the `\` at the end of every line
+or concatenate everything into one long commandline):
 
 ```
 docker run --rm -ti -p 1990:1880 \
@@ -21,15 +38,17 @@ docker run --rm -ti -p 1990:1880 \
   -c "npm i @flexdash/node-red-fd-corewidgets; npm start --cache /data/.npm -- -v -userDir /data"
 ```
 
-Open http://localhost:1990/ and you will see the Node-RED editor. Use the top-right menu and
-select "import", then "examples", then "@flexdash/node-red-fd-corewidget", and pick one of
-the examples. Place it in the flow.
+Open [http://localhost:1990/](http://localhost:1990/) and you will see the Node-RED editor.
 
-!!! TODO
-    Need to hook up the grid to the dashbaord...
+<figure markdown>
+![hello-world import](hello-world-dash.png){width="50%" align="right"}
 
-Deploy and open http://localhost:1990/flexdash and you will see the dashboard corresponding
-to the example.
+You can now [follow the examples](examples.md), e.g.:
+use the top-right menu and select "import", then "examples",
+then "@flexdash/node-red-fd-corewidget", and pick the Hello World example.
+Deploy and open [http://localhost:1990/flexdash](http://localhost:1990/flexdash)
+and you will see the dashboard.
+</figure>
 
 In the commandline window where you launched docker you will see the Node-RED log.
 
