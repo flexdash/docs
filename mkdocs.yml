@@ -26,6 +26,7 @@ nav:
   - "Quick Start":
     - quick-start/index.md
     - quick-start/docker.md
+    - quick-start/examples.md
   - "Using FlexDash":
     - 'using-flexdash/index.md'
     - 'using-flexdash/core-concepts.md'

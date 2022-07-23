@@ -4,6 +4,8 @@ FlexDash is a web dashboard that displays information in the form of widgets and
 perform actions with buttons and other controls.
 The overall layout uses grids, but this can be extended using custom layout components.
 
+![Teaser](demo-all.png){width="500"}
+
 FlexDash is completely independent of Node-RED and can be integrated into any web back-end
 using websockets or socket.io but a deep integration into Node-RED is also available and the
 latter is the primary focus of this documentation.

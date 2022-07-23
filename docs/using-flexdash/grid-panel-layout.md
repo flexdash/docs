@@ -7,7 +7,7 @@ The main difference between grids and panels is that grids reflow widgets as the
 browser screen width changes while panels maintain a fixed layout of widgets.
 
 ## Grids
-
+  
 Grids display a two-dimensional grid of widgets where all columns have the same width and all
 rows have the same height. The column width is a minimum of 120px and there is an 8px gap between
 columns. The column width stretches so an integral number fills the width of
@@ -44,6 +44,16 @@ required by 4 columns causing the grid to be clipped.
 <figcaption>The same grid as above displayed with max-cols=6 to constrain
 the maximum number of columns.
 </figure>
+
+Overall the grid provides a "responsive" layout that reflows as needed on smaller displays yet uses
+the full width on larger ones. One constraint is that the grid always has at least as many columns
+as the widest widget.
+So if a grid has a 6-column wide widget that is the grid's narrowest configuration
+and may well be wider than a cell phone display, for example.
+The non-intuitive part here is that it's not just the wide widget that will exceed the
+width of the screen but the grid as a whole and thus other small widgets will be off-screen too
+(to-do item: figure out horizontal scrolling).
+
 
 <figure markdown>
 ![Grid with max-cols](grid5.png){width="293" align="left"}

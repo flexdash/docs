@@ -8,29 +8,18 @@ optional in that widgets can be placed directly into grids.
 __Tabs__ are full pages that display information. Each tab has an icon and/or a name and these are
 shown in the top-nav bar or the "hamburger button" activated left-nav on small devices.
 
+<figure markdown>
+![FlexDash components](core1-annot.png){width="708"}
+<figcaption>A dashboard with multiple tabs is shown, the currently open tab has one grid with
+a mix of panels and widgets.
+</figure>
+
 Each tab can have one or multiple __grids__ filled with widgets. Each grid spans the full width of
-the page and has variable height depending on the widgets it contains. The standard grid uses the
-relatively new CSS grid functionality configured as follows:
+the page and has variable height depending on the widgets it contains.
+The grid uses the relatively new CSS grid functionality.
 
-- each grid column has a minimum width and the browser places as many columns as fit the
-  window and then expands all the columns just enough to fill the full window width.
-- each grid row has a fixed height approx 1/2 of the column width.
-- widgets can be configured to span multiple rows and columns.
-- all widgets in a grid are in a 1-dimensional order, they are dropped into the grid in that order
-  starting at the top-left corner and going across to the right and then wrapping to the next row.
-- when widgets span columns this can cause gaps, for example, a large widget may not fit in the
-  space left at the end of a row and wraps to the next row, small widgets that come later in the
-  order are "moved up" by the browser to fill these gaps (to-do item: provide a UI option to turn
-  this behavior off).
-
-Overall the grid provides a "responsive" layout that reflows as needed on smaller displays yet uses
-the full width on larger ones. One constraint is that the grid always has at least as many columns
-as the widest widget.
-So if a grid has a 6-column wide widget that is the grid's narrowest configuration
-and may well be wider than a cell phone display, for example.
-The non-intuitive part here is that it's not just the wide widget that will exceed the
-width of the screen but the grid as a whole and thus other small widgets will be off-screen too
-(to-do item: figure out horizontal scrolling).
+All widgets in a grid are in a 1-dimensional order, they are dropped into the grid in that order
+starting at the top-left corner and going across to the right and then wrapping to the next row.
 
 A __widget__ is a display element that visualizes some data. It looks like a card in the UI and may
 have a title. A typical widget has a number of inputs called _props_ (short for _properties_)
@@ -54,9 +43,44 @@ this happens as the outer grid's columns also expand slightly to fill the width 
 
 ## Built-in widget features
 
-- widget help and prop tips
-- maximize
-- info
+All widgets have a `title` prop and a `popup_info` prop.
+The title is shown at the top-center of the widget by default, but this can be overridden
+by the widget's imlpementation. The gauge widget is an example for that.
+
+<figure markdown>
+![Built-in widget features](core2.png){width="793"}
+<figcaption>Screen shot of the Node-RED editor showing built-in widget features: title and
+popup_info props, tips below each prop entry field, and widget help text in the info
+panel on the right.
+</figure>
+
+The popup info prop, if set, causes a small (i) icon to be shown at the top-right of the widget
+and when clicked, this brings up a pop-up panel displaying the text of the prop using
+markdown formatting. This is intended to provide additional info about what the widget shows.
+Giben that any prop can be set dynamically, this could even be used to display time-sensitive
+info.
+
+<figure markdown>
+![Maximize and info icons](core3.png){width="284" align="left"}
+<figcaption>The widget from above showing title and text, plus the maximize and info icons in
+the upper right hand corner.
+</figure>
+
+<figure markdown>
+![Maximized widget](core4.png){width="266" align="left"}
+![Popup info](core5.png){width="307" align="left"}
+<figcaption>Left: the widget from above maximized. Right: popup info shown.
+</figure>
+
+Each widget node has help text in the Node-RED editor's "info" pane and each widget prop
+has a short help tip below the text entry field, including info on which field of an
+incoming `msg` can be used to set the prop dynamically.
+
+The help text comes from the `help` property in the widget's component definition and the 
+tips come from the `tip` field in each prop's definition in the component.
+
+Many widgets have an icon to maximize the widget so it can be read more easily.
+This is enabled by adding a `full_page: true` field to the widget's component definition.
 
 ## Iframes
 
