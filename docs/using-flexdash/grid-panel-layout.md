@@ -1,6 +1,6 @@
 # Grid and Panel layout
 
-The primary containers in FlexDash to lay out widgets are grids and panels.
+The primary containers used to lay out widgets are grids and panels.
 Both place a linear list of widgets into a two dimensional grid from top-left to
 bottom-right and both support widgets that span multiple rows or multiple columns.
 The main difference between grids and panels is that grids reflow widgets as the
@@ -32,35 +32,51 @@ as a maximum. The max constraint can avoid awkward wide layouts on very wide dis
 min constraint can be helpful for mobile device layout to avoid excessively narrow layouts,
 possibly forcing the user to either pan or hold the device in landscape orientation.
 
+Finally, as if all this weren't complicated enough, if max-cols or min-cols is set the grid
+automatically scales its content to macth the width of the window.
+This is currently limited to a range of 0.75x to 1.33x.
+Here are some examples that hopefully illustrate the workings.
+
 <figure markdown>
-![Grid with min-cols](grid3.png){width="308" align="left"}
-<figcaption>The same grid as above displayed in a narrow window with min-cols=4 to constrain
-the minimum number of columns. The browser window is slightly narrower than the minimum space
-required by 4 columns causing the grid to be clipped.
+![grid 6 cols 100%](grid-6-100.png){width="443"}
+<figcaption>The all-demo widgets with the grid set to `min-cols:4` and `max-cols:6`, shown here
+with 6 columns fitting well into the window using the natural flex of the CSS grid.
 </figure>
 
 <figure markdown>
-![Grid with max-cols](grid4.png){width="308" align="left"}
-<figcaption>The same grid as above displayed with max-cols=6 to constrain
-the maximum number of columns.
+![grid 6 cols 130%](grid-6-130.png){width="583"}
+<figcaption>The same grid in a wider window causes the grid to magnify the content to 1.3x
+to fill the width of the window.
+Observe how the font of the Date Time widget is larger than in the previous screen shot while the
+items in the tab bar at the top have not changed size at all.
 </figure>
-
-Overall the grid provides a "responsive" layout that reflows as needed on smaller displays yet uses
-the full width on larger ones. One constraint is that the grid always has at least as many columns
-as the widest widget.
-So if a grid has a 6-column wide widget that is the grid's narrowest configuration
-and may well be wider than a cell phone display, for example.
-The non-intuitive part here is that it's not just the wide widget that will exceed the
-width of the screen but the grid as a whole and thus other small widgets will be off-screen too
-(to-do item: figure out horizontal scrolling).
-
 
 <figure markdown>
-![Grid with max-cols](grid5.png){width="293" align="left"}
-<figcaption>Enlarging Label2 to occupy 4 columns causes the minimum grid width to match
-that dimension. When displayed in a narrow window this causes other widgets to be clipped too.
+![grid 6 cols maxed](grid-6-max.png){width="666" align="left"}
+<figcaption>The same grid in a yet wider window causes it to magnify the content to 1.33x and
+leave a gap to the window border.
 </figure>
 
+<figure markdown>
+![grid 4 cols 100%](grid-4-100.png){width="310" align="left"}
+<figcaption>The same grid in a narrow window causes it to reflow to 4 columns but here it
+fits well using the natural flex of the grid. Observe how the size of items in the tab bar
+as well as in the widgets are the same size as in the first screen shot of the series.
+</figure>
+
+<figure markdown>
+![grid 6 cols 80%](grid-4-080.png){width="207" align="left"}
+<figcaption>The same grid in a yet narrower window that normally doesn't fit 4 columns causes the
+grid to shrink the contents by 0.8x for it to fit. Observe how the size of the title in the tab
+bar is unchanged but the widgets have been scaled down.
+</figure>
+
+In these examples the grid was set explicitly to `min-cols:4` but strictly speaking that was not
+necessary because the width of the grid is constrained so it always has at least as many columns
+as the widest widget, which are the 4-column graphs in this example.
+The non-intuitive part here is that it's not just the wide widget that may exceed the
+width of the screen but the grid as a whole and thus other small widgets may be off-screen too
+if the 0.75x shrink is insufficient.
 
 ## Panels
 
@@ -69,8 +85,8 @@ size of grid columns. Panels are placed into a grid just like widgets
 (from the grid's point of view a panel is a widget) thus they span a fixed number of grid columns
 and rows. A panel then has twice the number of columns for its internal grid and an arbitrary number
 of rows.
-The columns are generally equal-width and the rows are minuimal-height with extra space equally
-distributed.
+The columns are generally equal-width (CSS has its quirks...) and the rows are minimal-height
+with extra space equally distributed.
 
 The background of a panel can be either solid or transparent. A transparent background gives the
 look of a number of widgets that are grouped together while a solid background eliminates boundaries
@@ -80,7 +96,7 @@ between widgets and makes the panel look like a larger compound widget.
 ![panel with transparent background](panel3.png){width="380"}
 <figcaption>Panel with 7 widgets and transparent background used to force a fixed layout
 of the widgets as the panel acts like a big widget in terms of reflowing in the grid.
-The 7 widgets in the panel can be seen clearly.
+The 7 widgets in the panel can be distinguished clearly.
 The panel is 3 grid columns wide and it itself has 6 columns for its widgets.
 The widgets in the top row are 3 cols wide while the ones in the second row are 2 cols wide.
 All the widgets are 1 row high making them all equal height.
@@ -112,7 +128,8 @@ An example of a compound widget is shown ine the figure above. Some of the trick
 ### Creating mobile layouts
 
 Narrow cell phone screens are approx 3 grid columns wide, setting min-cols on a grid to 3
-forces this even on phones that show a smidge under 3 columns.
+forces this even on phones that show a smidge under 3 columns and enables the scaling to
+"micro-adjust" the difference.
 
 Grouping widgets into panels that are 3 cols wide creates a type of card layout that works
 well both on narrow phone screens as well as "normal" desktop screens, setting max-cols to
@@ -122,7 +139,8 @@ well both on narrow phone screens as well as "normal" desktop screens, setting m
 ![panels for phone on desktop](mobile1.png){width="696"}
 <figcaption>Tab with phone-friendly layout consisting of 3 panels and 2 plots that are all 3
 columns wide. The grid is set to max-cols=6 so in a desktop window the panels end up organized
-2-wide.
+2-wide. (Note: this screen shot was taken before the grid scaling was implemented, with scaling
+the grid content would magnify slightly to take up the entire width.)
 </figure>
 
 <figure markdown>
