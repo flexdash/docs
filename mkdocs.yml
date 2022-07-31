@@ -18,6 +18,11 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  # - pymdownx.superfences:
+  #     custom_fences:
+  #       - name: mermaid
+  #         class: mermaid
+  #         format: !!python/name:pymdownx.superfences.fence_code_format
 
 plugins:
   - search
@@ -37,7 +42,12 @@ nav:
     - 'using-flexdash/core-concepts.md'
     - 'using-flexdash/grid-panel-layout.md'
     - 'using-flexdash/iframes.md'
+    - 'using-flexdash/edit-mode.md'
+    - 'using-flexdash/nr-subflows.md'
+    - 'using-flexdash/array-widgets.md'
   - "Widget dev cheat Sheet":
     - 'widget-dev-cheat-sheet/index.md'
   - "Developing Widgets":
     - 'developing-widgets/index.md'
+  - "Internals":
+    - 'internals/nr-entities.md'
