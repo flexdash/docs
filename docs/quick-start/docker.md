@@ -34,7 +34,7 @@ or concatenate everything into one long commandline):
 docker run --rm -ti -p 1990:1880 \
   --entrypoint bash \
   --name my-node-red \
-  nodered/node-red:2.2.2 \
+  nodered/node-red:3.0.1 \
   -c "npm i @flexdash/node-red-fd-corewidgets; npm start --cache /data/.npm -- -v -userDir /data"
 ```
 
@@ -73,7 +73,7 @@ Node-RED. In more detail, the command options do the following:
 - `-name my-node-red` gives the container a name which is helpful if you look at
   running containers (`docker ps`) or you want a shell in the container
   (`docker exec -ti my-node-red bash`)
-- `nodered/node-red:2.2.2` is the image to download and run, pick a more recent version
+- `nodered/node-red:3.0.1` is the image to download and run, pick a more recent version
   of Node-RED if there is one.
 - `-c ...` is the command the shell is to execute, `npm i @flexdash/node-red-fd-corewidgets`
   installs the core widgets and brings node-red-flexdash in as a dependency, and
@@ -133,7 +133,7 @@ for example `./node-red-data`. Then launch a container as follows:
 docker run --rm -ti \
   -v $PWD/node-red-data:/data \
   --entrypoint bash \
-  nodered/node-red:2.2.2 \
+  nodered/node-red:3.0.1 \
   -c "cd /data; npm i @flexdash/node-red-fd-corewidgets"
 ```
 
@@ -160,7 +160,7 @@ Now comes the second step, which is to actually launch Node-RED:
 docker run --rm -ti -p 1990:1880 \
   -v $PWD/node-red-data:/data \
   --name flexdash-demo \
-  nodered/node-red:2.2.2
+  nodered/node-red:3.0.1
 ```
 
 This second incantation is quite simple: it just mounts the persisted data directory onto
@@ -170,7 +170,7 @@ This second incantation is quite simple: it just mounts the persisted data direc
 - To stop the container, hit Ctrl-C. It can be restarted anytime in the same manner.
 - To install additional packages, stop the Node-RED container, run the first incatation with
   a modified npm commandline, then start the Node-RED container again.
-- To try a different version of Node-RED, just alter the `2.2.2` part and as long as the
+- To try a different version of Node-RED, just alter the `3.0.1` part and as long as the
   versions are compatible, it should work.
 - To start from scratch, delete the `node-red-data` directory and start over.
 
@@ -184,7 +184,7 @@ them in the `data` directory just like the `npm install` command used above.
 In principle, this means that the first docker run above could be skipped, going straight to the
 second one, and then simply using the palette manager to install `node-red-fd-corewidgets`.
 
-Unfortunately, as of version 2.2.2 there is a bug, which is that the nodes found in
+Unfortunately, as of version 3.0.1 there is a bug, which is that the nodes found in
 dependencies are not installed. What this means is that if one installs
 `node-red-fd-corewidgets` then `node-red-flexdash` and `node-red-flexdash-plugins`
 are also installed, but the configuration nodes these two packages contain are not loaded
@@ -214,7 +214,7 @@ docker run --rm -ti \
   -v $PWD/node-red-data:/data \
   -v $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
   --entrypoint bash \
-  nodered/node-red:2.2.2 \
+  nodered/node-red:3.0.1 \
   -c "cd /data; npm i ./node-red-fd-mywidgets"
 ```
 
@@ -237,7 +237,7 @@ docker run --rm -ti -p 1990:1880 \
   -v $PWD/node-red-data:/data \
   -v $PWD/node-red-fd-mywidgets:/data/node-red-fd-mywidgets \
   --name flexdash-demo \
-  nodered/node-red:2.2.2
+  nodered/node-red:3.0.1
 ```
 
 !!! NOTE
@@ -270,7 +270,7 @@ docker run --rm -ti -p 1990:1880 \
   -v C:\Users\Me\node-red-fd-test:/data/node-red-fd-test \
   --entrypoint bash \
   --name my-node-red \
-  nodered/node-red:2.2.2 \
+  nodered/node-red:3.0.1 \
   -c "cd /data; npm i ./node-red-fd-test; npm start --cache /data/.npm -- -v -userDir /data"
 ```
 
