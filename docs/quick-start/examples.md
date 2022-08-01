@@ -1,7 +1,7 @@
 # Examples
 
 The examples are easy to run as long as the `Hello World` example is run first!
-It creates config nodes (dashboard and tab) that the other examples "hook into".
+It creates a dashboard config node that the other examples "hook into".
 If you do not run `Hello World` first you have to create these two config nodes yourself
 (not a big deal).
 
@@ -44,29 +44,36 @@ This is about how it looks after the import if you import the example into the s
 as the hello-world example.
 </figure>
 
+You need to associate the `flexdash tab` config node used by all the new example
+widgets with the `flexdash dashboard` imported with the hello-world example (or create
+a new dashboard if you don't have one yet):
+
 <figure markdown>
-![all widgets config1](all-widgets-config.png){width="75%" align="right"}
+![search invalid nodes](search-inval-nodes.png){width="50%" align="right"}
 
-You need to associate the `FlexDash grid` config node used by all the new example
-widgets with the `FlexDash tab` imported with the hello-world example:
-
-- double-click any new yellow FlexDash node
-- switch to the `general` tab
-- ensure the `grid-all` container is selected and click the pencil to edit it
+- click on deploy and observe the warning message
+- click on "search for invalid nodes" and select the (or one of the) flexdash
+  tab nodes that are invalid
 </figure>
 
 <figure markdown>
-![all widgets config2](all-widgets-config2.png){width="75%" align="right"}
+![rocket tab config node](rocket-tab-config-node.png){width="40%" align="right"}
 
-- ensure the `Demo` tab is selected
-- click the red `update` and then the red `done` button
-- deploy
+- the appropriate config node should be highlighted for you (flashing red outline)
+- double-click the config node to edit
+</figure>
+
+<figure markdown>
+![rocket tab config edit](rocket-tab-config-edit.png){width="75%" align="right"}
+
+- confirm that the correct dashboard has been selected (should be automatic if you have only one)
+- click update and then deploy again
 </figure>
 
 <figure markdown>
 ![all widgets dashboard](all-widgets-dash.png){width="75%" align="right"}
 
-Switching to the FlexDash browser tab you should see the following.
+Switching to the FlexDash browser tab you should see a dashboard similar to this.
 </figure>
 
 ## Next Steps
