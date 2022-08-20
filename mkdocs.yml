@@ -45,6 +45,7 @@ nav:
     - 'using-flexdash/edit-mode.md'
     - 'using-flexdash/nr-subflows.md'
     - 'using-flexdash/array-widgets.md'
+    - 'using-flexdash/colors.md'
   - "Widget dev cheat Sheet":
     - 'widget-dev-cheat-sheet/index.md'
   - "Developing Widgets":

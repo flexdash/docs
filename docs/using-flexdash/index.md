@@ -1,10 +1,10 @@
 # Using FlexDash with Node-RED
 
 FlexDash is a web dashboard with a deep integration into Node-RED.
-A dashboard in this context is a web page that displays rectangular UI elements
+A __dashboard__ in this context is a web page that displays UI elements
 to present dynamic real-time information.
-Each UI element is called a widget and looks like a card, the cards are arranged in a grid,
-and the web page can have multiple tabs each with its own grids and widgets.
+Each UI element is called a __widget__ and looks like a card, the cards are arranged in a __grid__,
+and the web page can have multiple __tabs__ each with its own grids and widgets.
 
 The dashboard is primarily intended to display information but it can also accept input,
 such as buttons to cause actions, switches, sliders, etc.
@@ -24,7 +24,7 @@ and not be bound by the dashboard's framework.
 - mobile and desktop browser support
 - display "old" Node-RED dashboard tabs in FlexDash tabs
 - deep integration into Node-RED similar to "old" Node-RED dashboard
-- uses Vue, which is one of the most popular and easy to learn web frameworks, making
+- uses Vue (version 3), which is one of the most popular and easy to learn web frameworks, making
   customization as easy as possible
 - comes with a large set of widgets to display data and to let users initiate actions
 
@@ -78,4 +78,3 @@ Many of these values are inter-dependent and initially the added complexity to m
 customizable deters from getting the basics working.
 There are two ways all this can be customized: provide hooks to change the values and
 implement a custom grid.
-
