@@ -6,6 +6,20 @@ robust and has been used in several projects. However, the Node-RED integration 
 the ramifications are not polished.
 The main known issues are listed below.
 
+!!! WARNING
+    One of the reasons FlexDash and its integration into Node-RED have an 'alpha' status
+    is that the way certain things work may change, forcing users to rebuild their dashbaords.
+
+    This already happened very early on when the FlexDash node names were changed to have an "fd"
+    prefix, e.g., "button" became "fd button". At that time no-one was using FlexDash so it was an
+    easy decision.
+    
+    At the time of writing this, a similar change is looming, which is to switch from having
+    dozens of core nodes to having a
+    single generic "FlexDash Widget" node that has a "widget type" selector. In that case, the
+    current nodes can be maintained for a while giving time to migrate, but eventually this will
+    create some migration work for early adopters.
+
 ## Big picture issues
 
 - There are more unknown issues than known issues 😉
@@ -20,8 +34,8 @@ The main known issues are listed below.
   not function well. Specific areas of concern are projects, disabled flows, and export/import of
   flows.
 - Editing a FlexDash node in the flow editor uses `typed input` input fields which have various
-  issues with defaults for boolean values, `null` as object or string values, not supporting
-  the input of multi-line strings, not supporting a color picker, and more. An input field better
+  issues with ~~defaults for boolean values, `null` as object or string values~~, not supporting
+  the input of multi-line strings, ~~not supporting a color picker~~, and more. An input field better
   suited for FlexDash is badly needed.
 - There is no authentication for dashboard users in the Node-RED integration. FlexDash supports
   very basic auth but the integration doesn't. This is a to-do item.
