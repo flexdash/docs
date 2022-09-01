@@ -6,6 +6,29 @@ bottom-right and both support widgets that span multiple rows or multiple column
 The main difference between grids and panels is that grids reflow widgets as the
 browser screen width changes while panels maintain a fixed layout of widgets.
 
+## Tl;dr;
+
+### Grids
+
+- Have a variable number of columns to fill the page, column width is 120px min.
+- Column count can be limited using min-cols and max-cols.
+- The number of columns is at least the number of columns of the widest widget.
+- Rows are fixed-height 78px.
+- Widgets are placed into columns left to right and then flow to the next row if they don't fit.
+- Widgets can "float up" if there is a gap in the grid, so small widgets late in the layout can
+  move earlier to fill gaps.
+- If the grid reaches max-cols and doesn't fill the width of the window then it is magnified by
+  up to 1.33x. If it still doesn't fill the window it is left-aligned.
+- If the grid is at min-cols (or the width of the widest widget) and the window is narrower then
+  the grid is scaled down to up to 0.8x. If it still doesn't fit, some widgets go off-screen.
+
+### Panels
+
+- Have a variable number of rows and fixed number of columns.
+- The columns are half the size of the grid's columns!
+- The rows are variable height: they have the minimum height of the tallest widget in the row, and
+  then any remaining space is distributed evenly across all rows.
+
 ## Grids
   
 Grids display a two-dimensional grid of widgets where all columns have the same width and all
@@ -113,6 +136,30 @@ Using a panel like this can avoid having to develop a custom widget.
 <figcaption>Same panel as above with edit mode turned on showing the boundaries (and edit
 buttons) of all the widgets.
 </figure>
+
+## Pop-up grids
+
+!!! WARNING
+    Pop-up grids are very experimental, their behavior may change.
+
+A pop-up grid is a grid that is shown as a modal overlay over the page with the background
+greyed out. It is opened (popped-up) via a message from Node-RED and it can be closed either
+using an close button ("X") in the top-right or using another message.
+To be more precise, the modal overlay covers the entire context of the tab leaving the tab bar
+functional so the user can move to another tab and come back.
+
+The width of the pop-up can fill the width of the page, up to the max-cols setting.
+It is generally necessary to reduce max-cols to avoid awkward blank space at the right of the
+pop-up.
+The height of the pop-up is governed by its contents.
+The layout within the grid functions the same way as for normal grids, in fact, the content of
+the pop-up is a standard grid component.
+
+To control the grid a "FlexDash ctrl" node is required in Node-RED and it must be associated with
+the pop-up grid.
+The grid can be shown or hidden by sending the ctrl node a message with `msg.show = true/false`.
+When the grid is close via the close button its corresponding ctrl widget emits a message with
+`msg.payload = { show: false }`.
 
 ## Tips and tricks
 
