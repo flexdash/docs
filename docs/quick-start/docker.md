@@ -5,7 +5,7 @@
 
 _Running Node-RED and FlexDash in Docker_
 
-In the context of Node-RED [Docker](docker.com) is a virtualization layer that
+In the context of Node-RED [Docker](https://docker.com) is a virtualization layer that
 cleanly separates:
 
 1. the Node-RED installation

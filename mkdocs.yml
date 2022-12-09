@@ -47,9 +47,17 @@ nav:
     - 'using-flexdash/nr-subflows.md'
     - 'using-flexdash/array-widgets.md'
     - 'using-flexdash/colors.md'
-  - "Widget dev cheat Sheet":
-    - 'widget-dev-cheat-sheet/index.md'
+    - 'using-flexdash/time-plots.md'
   - "Developing Widgets":
     - 'developing-widgets/index.md'
-  - "Internals":
-    - 'internals/nr-entities.md'
+    - 'developing-widgets/quick-start.md'
+    - 'developing-widgets/imports.md'
+    - 'developing-widgets/vue-primer.md'
+    - 'developing-widgets/vue-extensions.md'
+    - 'developing-widgets/vuetify-primer.md'
+    - 'developing-widgets/communication.md'
+    - 'developing-widgets/widget-config.md'
+    - 'developing-widgets/npm-start.md'
+    - 'developing-widgets/node-generator.md'
+    - 'developing-widgets/background.md'
+

@@ -5,12 +5,14 @@ A subflow is a flow that can be instantiated multiple times in other flows where
 like a regular node.
 
 FlexDash supports subflows as follows:
+
 - FlexDash widget nodes can be placed into a subflow
 - they all must be associated with one FlexDash "Subflow Panel" config node
 - every time the subflow is instantiated a new copy of the panel is shown in the dashboard
 - each of these panels can be placed into any grid, i.e. shown anywhere in the dashboard
 
 The main limitations are:
+
 - it is not possible to nest subflows, i.e., FlexDash widget nodes cannot be placed into a
   subflow that is instantiated in another subflow (this could be made to work in the future)
 - the widgets in a subflow must all be in one subflow panel and that subflow panel can contain
