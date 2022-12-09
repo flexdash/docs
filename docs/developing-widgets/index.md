@@ -1,7 +1,7 @@
 # Developing FlexDash/Node-RED Widgets
 
 !!! WARNING
-    Developing widgets is at the bleeding edge of FlexDash development these doc
+    Developing widgets is at the bleeding edge of FlexDash development and these doc
     pages are far from complete.
 
 FlexDash widgets, when integrated into Node-RED, are composed of three main parts:

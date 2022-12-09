@@ -12,12 +12,14 @@ The result is that custom widgets can access these from the `window` variable.
 The list of items in the `window` variable is printed in the browser console when
 FlexDash loads, but in general it consists of:
 
-- `window.Vue` - the [Vue library](https://vuejs.org/api)
-  (ex: `const version = window.Vue.version`)
-- `window.Vuetify` - the [Vuetify toolkit](https://next.vuetifyjs.com/en)
-  (ex: `const VRangeSlider = window.Vuetify.VRangeSlider`)
-- `window.uplot` - the [uPlot library](https://github.com/leeoniya/uPlot)
-  (ex: `const uplot = window.uPlot.default`)
+- `window.Vue` - the [Vue library](https://vuejs.org/api), no special syntax needed as it is
+  automatically transformed, e.g., `import { version } from 'vue'` becomes
+  `const version = window.Vue.version`, the key is to import just 'vue'.
+- `window.Vuetify` - the [Vuetify toolkit](https://next.vuetifyjs.com/en) can also be imported
+  with the same syntax as Vue, e.g., `import { VRangeSlider } from 'vuetify'` becomes
+  `const VRangeSlider = window.Vuetify.VRangeSlider`.
+- `window.uplot` - the [uPlot library](https://github.com/leeoniya/uPlot) must be accessed using
+  the window object explicitly (ex: `const uplot = window.uPlot.default`)
 - `window.Palette.widgets[`<WidgetName>]` -
   [built-in widgets](https://github.com/flexdash/flexdash/tree/main/src/widgets)
   (ex: `const Gauge = window.Palette.widgets['Gauge']`)
