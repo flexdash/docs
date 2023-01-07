@@ -1,0 +1,1013 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../imports/">
+      
+      
+        <link rel="next" href="../vue-extensions/">
+      
+      <link rel="icon" href="../../docs.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Vue primer - FlexDash</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vue-primer" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FlexDash" class="md-header__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlexDash
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Vue primer
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FlexDash" class="md-nav__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    FlexDash
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../known-issues/" class="md-nav__link">
+        Known Issues
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../quick-start/">Quick Start</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../using-flexdash/">Using FlexDash</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Using FlexDash" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Using FlexDash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/core-concepts/" class="md-nav__link">
+        Core Concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/grid-panel-layout/" class="md-nav__link">
+        Grid and Panel layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/iframes/" class="md-nav__link">
+        IFrames
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/edit-mode/" class="md-nav__link">
+        Edit Mode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/nr-subflows/" class="md-nav__link">
+        Node-RED Subflows
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/array-widgets/" class="md-nav__link">
+        Array Widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/colors/" class="md-nav__link">
+        Colors and themes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/time-plots/" class="md-nav__link">
+        Customizing Time Plots
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Developing Widgets</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developing Widgets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developing Widgets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        Quickly modify an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../imports/" class="md-nav__link">
+        Imports in custom widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Vue primer
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Vue primer
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-very-simple-widget" class="md-nav__link">
+    A very simple widget
+  </a>
+  
+    <nav class="md-nav" aria-label="A very simple widget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-template" class="md-nav__link">
+    HTML template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript" class="md-nav__link">
+    Javascript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css" class="md-nav__link">
+    CSS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    Result
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vue-extensions/" class="md-nav__link">
+        Extensions to Vue components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vuetify-primer/" class="md-nav__link">
+        Vuetify Primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communication/" class="md-nav__link">
+        Mirror state -- don't send messages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widget-config/" class="md-nav__link">
+        Configuring widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npm-start/" class="md-nav__link">
+        Create an NPM package from an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../node-generator/" class="md-nav__link">
+        Generating nodes from widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background/" class="md-nav__link">
+        Background and Implementation Details
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-very-simple-widget" class="md-nav__link">
+    A very simple widget
+  </a>
+  
+    <nav class="md-nav" aria-label="A very simple widget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-template" class="md-nav__link">
+    HTML template
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript" class="md-nav__link">
+    Javascript
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#css" class="md-nav__link">
+    CSS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#result" class="md-nav__link">
+    Result
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="vue-primer">Vue primer</h1>
+<p><img align="right" alt="Vue logo" src="../vue-logo.png" width="25%" />
+FlexDash uses the highly popular Vue 3 web framework.
+Beyond its popularity, which ensures that there are many tutorials and examples out there,
+the benefit of Vue is that it has a relatively soft learning curve and that it provides
+some structure for the UI code.</p>
+<p>Vue uses "enhanced" web components. A web component is a piece of code that gets
+instantiated on a web page using an HTML tag. E.g., just like <code>&lt;h1&gt;...&lt;/h1&gt;</code> produces
+a heading on the page writing <code>&lt;my-widget&gt;...&lt;/my-widget&gt;</code> can produce an instance of
+a Vue component.</p>
+<p>To write a Vue component up to three parts are necessary:</p>
+<ol>
+<li>An HTML template: this is a fragment of HTML that replaces <code>&lt;my-widget&gt;...&lt;/my-widget&gt;</code>
+    or put differently, this is the HTML that renders the component.</li>
+<li>A piece of javascript code: this is what implements the dynamic functions of the
+    component.</li>
+<li>A CSS style sheet that provides styling for the component's HTML.</li>
+</ol>
+<p>One nice aspect of Vue is that is allows these three parts to be combined into a single file
+(this is called Single File Components, or SFC, in Vue) and the file extension is <code>.vue</code>.</p>
+<p><img align="right" alt="Vuetify logo" src="../vuetify-logo.svg" width="25%" />
+(Note that technically a minimal widget can consist of just a template or just a script
+with a render function, but in practice the vast majority of FlexDash widgets have a template
+and a script, and many have some CSS too.)</p>
+<p>In addition to using Vue 3 FlexDash also uses the Vuetify 3 toolkit.
+Vuetify is essentially a web component library that provides an implementation for many
+typical UI components such as buttons, data tables, menus, forms, text fields, icons, etc.</p>
+<h2 id="a-very-simple-widget">A very simple widget</h2>
+<p>A FlexDash widget is a Vue component that follows some additional conventions and that is
+flagged to FlexDash as being a widget.</p>
+<p>There are many excellent Vue tutorials
+(e.g. <a href="https://vuejs.org/tutorial/#step-1">the official one</a>),
+the intent of the example in this section is
+to complement these by showing a complete FlexDash widget example that uses some of the
+conventions used by FlexDash and that explains how all the pieces, including the Node-RED ones,
+hang together.
+The example used is a <code>simple-button</code> widget displays a button with a custom label and that
+outputs a value when clicked.</p>
+<p>For the sake of formatting, the HTML, CSS, and Javascript portions of the <code>.vue</code> file
+(or the custom widget edit pane) are shown below separately.
+They are simply concatenated one after another in any order in the actual <code>.vue</code> file.</p>
+<h3 id="html-template">HTML template</h3>
+<p>When a widget is rendered by FlexDash, its HTML is inserted into a "card",
+so the widget only needs to render the content of that card.
+For example:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">template</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">v-btn</span> <span class="na">variant</span><span class="o">=</span><span class="s">&quot;elevated&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;ma-auto&quot;</span> <span class="err">@</span><span class="na">click</span><span class="o">=</span><span class="s">&quot;clicked()&quot;</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;label&quot;</span><span class="p">&gt;</span>{{ label }}<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>
+  <span class="p">&lt;/</span><span class="nt">v-btn</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">template</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>This template consists of a single outer HTML tag: v-btn, which is a button component provided
+by Vuetify (all Vuetify components start with "v-").
+The elevated variant has a drop shadow giving the button an elevated look and "ma-auto" is
+a Vuetify spacing helper class that adds a <code>margin: auto</code> CSS tag to the component,
+which causes it to be vertically and horizontally centered in its HTML container,
+i.e. the above-mentioned card.</p>
+<p>For more details:</p>
+<ul>
+<li><a href="https://next.vuetifyjs.com/en/components/buttons/">Vuetify buttons</a></li>
+<li><a href="https://next.vuetifyjs.com/en/styles/spacing/">Vuetify CSS spacing helpers</a></li>
+</ul>
+<p>Within the button comes the text the button displays, which is the content of a (yet to be defined)
+variable called label.
+The <code>{{</code>..<code>}}</code> notation is used to insert the output of a Javascript fragment, which here is
+just the content of a variable.</p>
+<p>The <code>@click</code> is a <a href="https://vuejs.org/api/built-in-directives.html#v-on">Vue notation</a>
+that causes the code on the right of the = to be executed when the
+component emits an event called 'click'.
+(The '@click' is short-hand notation for <code>v-on:click</code>.)
+In this example a (yet to be defined) method 'clicked' is called.</p>
+<p>Note that as part of Vue's pre-processing of the template the <code>this</code> object references are added,
+thus <code>label</code> turns into <code>this.label</code> and <code>clicked()</code> turns into <code>this.clicked()</code>, where <code>this</code>
+refers to the component's object as defined in the Javascript portion of the SFC.</p>
+<h3 id="javascript">Javascript</h3>
+<p>The Javascript for the simple-button widget is:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;SimpleButton&#39;</span><span class="p">,</span><span class="w"> </span><span class="c1">// the name of the widget</span>
+
+<span class="w">  </span><span class="c1">// Help text shown in the Node-RED info pane of the node.</span>
+<span class="w">  </span><span class="nx">help</span><span class="o">:</span><span class="w"> </span><span class="sb">`Button to send a message.</span>
+<span class="sb">Pressing the button sends a message with the value of the \`output\` prop as payload.</span>
+<span class="sb">The button may contain a label that is shown centered in the widget.`</span><span class="p">,</span>
+
+<span class="w">  </span><span class="c1">// Props are the inputs to the widget, they can all be set from Node-RED either statically</span>
+<span class="w">  </span><span class="c1">// in the flow editor UI or dynamically using msg.&lt;prop_name&gt;.</span>
+<span class="w">  </span><span class="c1">// The tips show in the flow editor below the input fields.</span>
+<span class="w">  </span><span class="nx">props</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;clickme&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">tip</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;text to show inside button&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nx">output</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">default</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;I was clicked&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">tip</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;value to output when clicked&quot;</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+
+<span class="w">  </span><span class="nx">output</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="c1">// signals to FlexDash that the widget can output a message</span>
+
+<span class="w">  </span><span class="c1">// simple methods within the component</span>
+<span class="w">  </span><span class="nx">methods</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">clicked</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// handle the clicking of the button, i.e., the handler for the &#39;@click&#39;</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="nx">$emit</span><span class="p">(</span><span class="s1">&#39;send&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="nx">output</span><span class="p">)</span><span class="w"> </span><span class="c1">// emit an event (Vue concept), a &#39;send&#39; event goes to NR</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="o">&lt;</span><span class="err">/script&gt;</span>
+</code></pre></div>
+<p>Some of the fields of this Javascript object are not relevant when using the custom widget node:</p>
+<ul>
+<li>The <code>name</code> field must be globally unique but is ignored when using the custom widget node
+  and can be omitted.</li>
+<li>The <code>help</code> field is also ignored when using the custom widget node.</li>
+<li>The <code>output</code> field is ignored when using the custom widget node, at the moment all widgets
+  built using the custom widget node are assumed to have an output.</li>
+</ul>
+<h3 id="css">CSS</h3>
+<p>The CSS for the simple button widget is:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="nt">style</span><span class="w"> </span><span class="nt">scoped</span><span class="o">&gt;</span>
+<span class="w">  </span><span class="p">.</span><span class="nc">label</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">red</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="nt">style</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>The <code>scoped</code> attribute of the style tag causes Vue to apply the CSS only to the elements in
+the template.
+This is convenient to avoid affecting other components in FlexDash.</p>
+<p>Note that the CSS does not apply recursively down, i.e., components instantiated by
+<code>v-btn</code> are not affected by the CSS.
+It is however possible to affect elements down the hierarchy using the <code>:deep</code> selector,
+see the <a href="https://vuejs.org/api/sfc-css-features.html#scoped-css">Vue documentation</a>.</p>
+<h2 id="result">Result</h2>
+<p>The resulting widget looks as follows in FlexDash:</p>
+<p><img alt="SimpleButton widget" src="../vue-primer-1.png" width="20%" /></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>

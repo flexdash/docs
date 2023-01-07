@@ -1,0 +1,1120 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../node-generator/">
+      
+      
+      <link rel="icon" href="../../docs.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Background and Implementation Details - FlexDash</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#background-and-implementation-details" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FlexDash" class="md-header__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlexDash
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Background and Implementation Details
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FlexDash" class="md-nav__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    FlexDash
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../known-issues/" class="md-nav__link">
+        Known Issues
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../quick-start/">Quick Start</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../using-flexdash/">Using FlexDash</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Using FlexDash" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Using FlexDash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/core-concepts/" class="md-nav__link">
+        Core Concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/grid-panel-layout/" class="md-nav__link">
+        Grid and Panel layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/iframes/" class="md-nav__link">
+        IFrames
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/edit-mode/" class="md-nav__link">
+        Edit Mode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/nr-subflows/" class="md-nav__link">
+        Node-RED Subflows
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/array-widgets/" class="md-nav__link">
+        Array Widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/colors/" class="md-nav__link">
+        Colors and themes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/time-plots/" class="md-nav__link">
+        Customizing Time Plots
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Developing Widgets</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developing Widgets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developing Widgets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        Quickly modify an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../imports/" class="md-nav__link">
+        Imports in custom widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vue-primer/" class="md-nav__link">
+        Vue primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vue-extensions/" class="md-nav__link">
+        Extensions to Vue components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vuetify-primer/" class="md-nav__link">
+        Vuetify Primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../communication/" class="md-nav__link">
+        Mirror state -- don't send messages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widget-config/" class="md-nav__link">
+        Configuring widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npm-start/" class="md-nav__link">
+        Create an NPM package from an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../node-generator/" class="md-nav__link">
+        Generating nodes from widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Background and Implementation Details
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Background and Implementation Details
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background-on-linking-in-dev-mode-vs-production" class="md-nav__link">
+    Background on linking in dev mode vs. production
+  </a>
+  
+    <nav class="md-nav" aria-label="Background on linking in dev mode vs. production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specifics-for-imports-in-dev-mode" class="md-nav__link">
+    Specifics for imports in dev mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specifics-for-imports-in-production-mode" class="md-nav__link">
+    Specifics for imports in production mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-devprod-requirements" class="md-nav__link">
+    Common (dev&amp;prod) requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="Common (dev&amp;prod) requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widget-files-and-names" class="md-nav__link">
+    Widget files and names
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node-red-nodes" class="md-nav__link">
+    Node-RED nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-development" class="md-nav__link">
+    Requirements for development
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-production" class="md-nav__link">
+    Requirements for production
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#background-on-linking-in-dev-mode-vs-production" class="md-nav__link">
+    Background on linking in dev mode vs. production
+  </a>
+  
+    <nav class="md-nav" aria-label="Background on linking in dev mode vs. production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specifics-for-imports-in-dev-mode" class="md-nav__link">
+    Specifics for imports in dev mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#specifics-for-imports-in-production-mode" class="md-nav__link">
+    Specifics for imports in production mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-devprod-requirements" class="md-nav__link">
+    Common (dev&amp;prod) requirements
+  </a>
+  
+    <nav class="md-nav" aria-label="Common (dev&amp;prod) requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#widget-files-and-names" class="md-nav__link">
+    Widget files and names
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#node-red-nodes" class="md-nav__link">
+    Node-RED nodes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-development" class="md-nav__link">
+    Requirements for development
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-production" class="md-nav__link">
+    Requirements for production
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="background-and-implementation-details">Background and Implementation Details</h1>
+<h2 id="background-on-linking-in-dev-mode-vs-production">Background on linking in dev mode vs. production</h2>
+<p>Developing widgets using the dev server vs. running the same widgets in "production" uses quite
+different linking steps and this can lead to rather confusing errors and problems.
+The linking steps in Javascript involve a number of tools, plugins to those tools and everything
+is both complicated and magic.
+When the magic fails one is left with a heap of complexity leading to frustration...</p>
+<p>Linking external packages with custom widgets is fundamentally different in dev mode from
+production mode. In dev mode everything is served up by Vite ("dev server"). It serves up one
+source tree, which is the FlexDash source tree and the external packages are essentially
+npm installed into that source tree (using symlinks). This means that when some module in
+the external package has an import statement the path is resolved by Vite the same way it resolves
+it for all of FlexDash.</p>
+<p>In production mode, FlexDash is built and bundled, and then at run-time loaded into the browser.
+External packages with custom widgets are similarly built and bundled <em>in isolation</em>.
+They cannot simply import modules that are a part of FlexDash like in dev mode.
+They also cannot declare Vue, Vuetify as their own dependencies because that would result in
+multiple copies of these libraries loaded in the browser.
+The solution used is for FlexDash to export selected functions of Vue, Vuetify, and uPlot
+in the <code>window</code> global variable and to use <code>vite-plugin-externals</code> to transparently import
+references to Vue, Vuetify, and uplot.</p>
+<h4 id="specifics-for-imports-in-dev-mode">Specifics for imports in dev mode</h4>
+<ul>
+<li><code>import ... from "Vue"</code>, <code>import from "Vuetify"</code>, <code>import from "uplot"</code>: ???</li>
+<li>use of <code>&lt;v-some-component&gt;</code> is handled by the Vite vue-loader plugin and the source code is
+  transformed to an import of <code>vuetify/lib/components/VSomeComponent/index.mjs</code></li>
+</ul>
+<h4 id="specifics-for-imports-in-production-mode">Specifics for imports in production mode</h4>
+<ul>
+<li><code>import ... from "Vue"</code>, <code>import from "Vuetify"</code>, <code>import from "uplot"</code> are transformed
+  by the <code>vue-plugin-externals</code> Vite plugin to reference <code>window.Xxxx</code> instead of performing
+  an actual import. These globals are set in FlexDash's <code>main.js</code>.</li>
+<li>use of <code>&lt;v-some-component&gt;</code> magically works because all Vuetify components are registered
+  with Vue in FlexDash's <code>main.js</code>, so they don't need to be explicitly imported.</li>
+</ul>
+<p>Note that the explicit import of all Vuetify components is not just necessary for the registration
+but also to ensure they all actually show up in the bundle since FlexDash itself doesn't use all.
+It would make sense to exclude some very large components in the future to reduce code bloat.</p>
+<h2 id="reference">Reference</h2>
+<h3 id="common-devprod-requirements">Common (dev&amp;prod) requirements</h3>
+<h4 id="widget-files-and-names">Widget files and names</h4>
+<ul>
+<li>The custom widgets must be in an NPM module whose name starts with <code>node-red-fd-</code>.</li>
+<li>Each widget must be in a <code>.vue</code> file located in a <code>widgets</code> subdirectory in the module directory.</li>
+<li>The widget should have a compound name (i.e. with a <code>-</code>) to avoid clashes with HTML tags.</li>
+<li>The widget's file name should (must?) be the widget's name (plus the <code>.vue</code> extension).</li>
+<li>The widget must declare its name using the CamelCase version (i.e. `name: "WidgetName" field).</li>
+</ul>
+<h4 id="node-red-nodes">Node-RED nodes</h4>
+<ul>
+<li>Node-RED nodes can be generated from the widget '.vue' file using the <code>gen-widget-nodes.js</code>
+  script in <code>node-red-flexdash</code>. The <code>.js</code> and <code>.html</code> files can also be written manually.</li>
+<li>The correspondence between a node and a widget is established by the <code>initWidget</code> call in the
+  node's constructor,
+  e.g. <code>const widget = RED.plugins.get('flexdash').initWidget(this, config, 'WidgetName')</code>.</li>
+<li>Multiple nodes can instantiate widgets of the same type, however, a node cannot instantiate
+  multiple widgets (except for arrays), because the widget uses the node's ID and multiple
+  calls to <code>initWidget</code> would create an ID clash.</li>
+</ul>
+<h4 id="dependencies">Dependencies</h4>
+<ul>
+<li>The widget code can call Vue globals using an implicit global <code>Vue</code> variable.</li>
+<li>The widget can use any Vuetify component in its template without special declaration or import.</li>
+<li>The widget can call any Vuetify global using an implicit global <code>Vuetify</code> variable.</li>
+<li>The widget can use uPlot using a global <code>uplot</code>.</li>
+<li>Any other npm package must be declared as dependency in a <code>package.json</code> in the <code>widgets</code> directory
+  and must be installed there using <code>npm install</code> resulting in a <code>./node_modules/&lt;package&gt;</code>.</li>
+</ul>
+<h4 id="installation">Installation</h4>
+<ul>
+<li>The module with the widgets must be installed using npm. This can either be an installation
+  from the npm repository (e.g. <code>npm install node-red-fd-my-widgets</code>) or an installation from
+  source (e.g. <code>npm install /home/myself/src/node-red-fd-my-widgets</code>).</li>
+<li>The module may be installed in the Node-RED <code>user_dir</code>'s node_modules directory
+  (<code>/usr/src/node-red/node_modules</code> when using docker, <code>~/.node-red/node_modules</code> otherwise)
+  or in the <code>data_dir</code>'s node_modules
+  (<code>/data/node_modules</code> with docker, <code>~/.node-red/???/node_modules</code> otherwise).</li>
+<li>node-red-flasdash ends up searching for widget vue files in:</li>
+<li><code>${user_dir}/node_modules/node-red-fd-*/widgets/*.vue</code></li>
+<li><code>${user_dir}/node_modules/@*/node-red-fd-*/widgets/*.vue</code></li>
+<li><code>${data_dir}/node_modules/node-red-fd-*/widgets/*.vue</code></li>
+<li><code>${data_dir}/node_modules/@*/node-red-fd-*/widgets/*.vue</code></li>
+</ul>
+<h3 id="requirements-for-development">Requirements for development</h3>
+<p>There are no additional requirements for development other than having to run the "dev server"
+using the <code>flexdash dev server</code> node in node-red-flexdash.</p>
+<p>In dev mode (using the dev server) all Javascript pieces are served up by the dev server (Vite)
+using modern ESM modules.
+Vite does some pre-bundling and other optimizations to be able to serve everything up relatively
+quickly.
+All the cached modules can be found in <code>flexdash-src/node_modules/.vite</code>, i.e. in the
+FlexDash source directory installed by the dev server or by yourself. There are scenarios where
+an <code>rm -rf</code> of that directory helps...</p>
+<p>When the dev server is started it prints some info messages to the Node-RED log about custom
+widgets it has loaded. E.g.:</p>
+<div class="highlight"><pre><span></span><code>18 Aug 13:09:02 - [info] [flexdash dev server:FD] widgets: searching in /usr/src/node-red
+18 Aug 13:09:02 - [info] [flexdash dev server:FD] widgets: searching in /data
+18 Aug 13:09:02 - [info] [flexdash dev server:FD] widgets: found node-red-fd-testnodes
+18 Aug 13:09:02 - [info] [flexdash dev server:FD] widgets: found node-red-fd-network-diagram
+</code></pre></div>
+<h3 id="requirements-for-production">Requirements for production</h3>
+<p>In production FlexDash is served up using an optimized and minified bundle.
+External/custom widgets are imported "on the side" from their own bundle.
+This loading is done by the palette loader, which obtains a handle onto the laoded widget
+bundle and inspects it to determine what to add to FlexDash's palette.
+The dashboard config sent to FlexDash contains the names of widgets and these names are looked
+up in the palette, that's how FlexDash knows to display a custom widget.</p>
+<p>Often widgets need to call code that exists in FlexDash, such as Vue, Vuetify, or uPlot
+functions. These are accessed via global variables and the build must be configured to
+exclude these libraries from the build of the widget module (see below).</p>
+<ul>
+<li>The <code>package.json</code> in the <code>widgets</code> directory should have a build script which
+  invokes <code>vite build</code>. This allows the build step to be invoked using <code>npm run build</code>.</li>
+<li>The <code>widgets</code> directory must have a <code>vite.config.js</code> to configure the build step, it is best
+  to adapt the config from the <code>node-red-fd-testnodes</code> repository. (Primarily, any 
+  dependencies on other npm modules must be added.)</li>
+<li>The <code>widgets</code> directory must have an <code>index.js</code> file with a line that re-exports all widgets:
+  <code>export default import.meta.globEager("./*.vue")</code>, see the <code>node-red-fd-testnodes</code> repo.</li>
+<li>The build must be performed before Node-RED is started, resulting in a <code>dist/fd-widgets.es.js</code>
+  file below the <code>widgets</code> directory. Additionally, if the <code>.vue</code> files include <code>&lt;style&gt;</code> a
+  <code>dist/style.css</code> file will be present.</li>
+</ul>
+<p>When Node-RED starts and the node-red-flexdash dashboard node starts it prints some info messages
+to the Node-RED log about extra widget modules it has found. E.g.:</p>
+<div class="highlight"><pre><span></span><code>18 Aug 13:09:05 - [info] [flexdash dashboard:FD] Looking for extra widgets in /usr/src/node-red,
+ /data
+18 Aug 13:09:05 - [info] [flexdash dashboard:FD] Extra widget modules: @flexdash/node-red-fd-tes
+tnodes/widgets/dist/fd-widgets.es.js, @tve/node-red-fd-network-diagram/widgets/dist/fd-widgets.es.js
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>

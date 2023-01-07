@@ -1,0 +1,1140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../core-concepts/">
+      
+      
+        <link rel="next" href="../iframes/">
+      
+      <link rel="icon" href="../../docs.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Grid and Panel layout - FlexDash</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#grid-and-panel-layout" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FlexDash" class="md-header__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlexDash
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Grid and Panel layout
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FlexDash" class="md-nav__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    FlexDash
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../known-issues/" class="md-nav__link">
+        Known Issues
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../quick-start/">Quick Start</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Using FlexDash</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Using FlexDash" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Using FlexDash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-concepts/" class="md-nav__link">
+        Core Concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Grid and Panel layout
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Grid and Panel layout
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    Tl;dr;
+  </a>
+  
+    <nav class="md-nav" aria-label="Tl;dr;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grids" class="md-nav__link">
+    Grids
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panels" class="md-nav__link">
+    Panels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grids_1" class="md-nav__link">
+    Grids
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#panels_1" class="md-nav__link">
+    Panels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop-up-grids" class="md-nav__link">
+    Pop-up grids
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-tricks" class="md-nav__link">
+    Tips and tricks
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and tricks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-compound-widgets" class="md-nav__link">
+    Creating compound widgets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-mobile-layouts" class="md-nav__link">
+    Creating mobile layouts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iframes/" class="md-nav__link">
+        IFrames
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../edit-mode/" class="md-nav__link">
+        Edit Mode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nr-subflows/" class="md-nav__link">
+        Node-RED Subflows
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../array-widgets/" class="md-nav__link">
+        Array Widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../colors/" class="md-nav__link">
+        Colors and themes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time-plots/" class="md-nav__link">
+        Customizing Time Plots
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../developing-widgets/">Developing Widgets</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developing Widgets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developing Widgets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/quick-start/" class="md-nav__link">
+        Quickly modify an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/imports/" class="md-nav__link">
+        Imports in custom widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/vue-primer/" class="md-nav__link">
+        Vue primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/vue-extensions/" class="md-nav__link">
+        Extensions to Vue components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/vuetify-primer/" class="md-nav__link">
+        Vuetify Primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/communication/" class="md-nav__link">
+        Mirror state -- don't send messages
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/widget-config/" class="md-nav__link">
+        Configuring widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/npm-start/" class="md-nav__link">
+        Create an NPM package from an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/node-generator/" class="md-nav__link">
+        Generating nodes from widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing-widgets/background/" class="md-nav__link">
+        Background and Implementation Details
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    Tl;dr;
+  </a>
+  
+    <nav class="md-nav" aria-label="Tl;dr;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grids" class="md-nav__link">
+    Grids
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#panels" class="md-nav__link">
+    Panels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grids_1" class="md-nav__link">
+    Grids
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#panels_1" class="md-nav__link">
+    Panels
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop-up-grids" class="md-nav__link">
+    Pop-up grids
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-tricks" class="md-nav__link">
+    Tips and tricks
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and tricks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-compound-widgets" class="md-nav__link">
+    Creating compound widgets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-mobile-layouts" class="md-nav__link">
+    Creating mobile layouts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="grid-and-panel-layout">Grid and Panel layout</h1>
+<p>The primary containers used to lay out widgets are grids and panels.
+Both place a linear list of widgets into a two dimensional grid from top-left to
+bottom-right and both support widgets that span multiple rows or multiple columns.
+The main difference between grids and panels is that grids reflow widgets as the
+browser screen width changes while panels maintain a fixed layout of widgets.</p>
+<h2 id="tldr">Tl;dr;</h2>
+<h3 id="grids">Grids</h3>
+<ul>
+<li>Have a variable number of columns to fill the page, column width is 120px min.</li>
+<li>Column count can be limited using min-cols and max-cols.</li>
+<li>The number of columns is at least the number of columns of the widest widget.</li>
+<li>Rows are fixed-height 78px.</li>
+<li>Widgets are placed into columns left to right and then flow to the next row if they don't fit.</li>
+<li>Widgets can "float up" if there is a gap in the grid, so small widgets late in the layout can
+  move earlier to fill gaps.</li>
+<li>If the grid reaches max-cols and doesn't fill the width of the window then it is magnified by
+  up to 1.33x. If it still doesn't fill the window it is left-aligned.</li>
+<li>If the grid is at min-cols (or the width of the widest widget) and the window is narrower then
+  the grid is scaled down to up to 0.8x. If it still doesn't fit, some widgets go off-screen.</li>
+</ul>
+<h3 id="panels">Panels</h3>
+<ul>
+<li>Have a variable number of rows and fixed number of columns.</li>
+<li>The columns are half the size of the grid's columns!</li>
+<li>The rows are variable height: they have the minimum height of the tallest widget in the row, and
+  then any remaining space is distributed evenly across all rows.</li>
+</ul>
+<h2 id="grids_1">Grids</h2>
+<p>Grids display a two-dimensional grid of widgets where all columns have the same width and all
+rows have the same height. The column width is a minimum of 120px and there is an 8px gap between
+columns. The column width stretches so an integral number fills the width of
+the browser window, this means that the maximum theoretical column width is 247px (a very narrow
+window showing a single column before the jump the two columns).
+The height of the grid rows is fixed at 78px (a 3/2 width/height aspect ratio) with an 8px gap.</p>
+<figure>
+<p><img alt="Simple grid on wide page" src="../grid1.png" width="862" /></p>
+<figcaption>Grid with 8 widgets of varying sizes displayed in a relatively wide browser window.
+The last widget (Label8) reflowed to the next row.
+</figcaption>
+</figure>
+<figure>
+<p><img alt="Simple grid on narrow page" src="../grid2.png" width="509" /></p>
+<figcaption>The same grid as above displayed in a narrower browser window. Label4 reflowed to
+the end of the second row leaving gaps which Label5 and Label6 moved into out of order.
+</figcaption>
+</figure>
+<p>The reflowing of the grid can be constrained by specifying a minimum number of columns as well
+as a maximum. The max constraint can avoid awkward wide layouts on very wide displays and the
+min constraint can be helpful for mobile device layout to avoid excessively narrow layouts,
+possibly forcing the user to either pan or hold the device in landscape orientation.</p>
+<p>Finally, as if all this weren't complicated enough, if max-cols or min-cols is set the grid
+automatically scales its content to macth the width of the window.
+This is currently limited to a range of 0.75x to 1.33x.
+Here are some examples that hopefully illustrate the workings.</p>
+<figure>
+<p><img alt="grid 6 cols 100%" src="../grid-6-100.png" width="443" /></p>
+<figcaption>The all-demo widgets with the grid set to `min-cols:4` and `max-cols:6`, shown here
+with 6 columns fitting well into the window using the natural flex of the CSS grid.
+</figcaption>
+</figure>
+<figure>
+<p><img alt="grid 6 cols 130%" src="../grid-6-130.png" width="583" /></p>
+<figcaption>The same grid in a wider window causes the grid to magnify the content to 1.3x
+to fill the width of the window.
+Observe how the font of the Date Time widget is larger than in the previous screen shot while the
+items in the tab bar at the top have not changed size at all.
+</figcaption>
+</figure>
+<figure>
+<p><img align="left" alt="grid 6 cols maxed" src="../grid-6-max.png" width="666" /></p>
+<figcaption>The same grid in a yet wider window causes it to magnify the content to 1.33x and
+leave a gap to the window border.
+</figcaption>
+</figure>
+<figure>
+<p><img align="left" alt="grid 4 cols 100%" src="../grid-4-100.png" width="310" /></p>
+<figcaption>The same grid in a narrow window causes it to reflow to 4 columns but here it
+fits well using the natural flex of the grid. Observe how the size of items in the tab bar
+as well as in the widgets are the same size as in the first screen shot of the series.
+</figcaption>
+</figure>
+<figure>
+<p><img align="left" alt="grid 6 cols 80%" src="../grid-4-080.png" width="207" /></p>
+<figcaption>The same grid in a yet narrower window that normally doesn't fit 4 columns causes the
+grid to shrink the contents by 0.8x for it to fit. Observe how the size of the title in the tab
+bar is unchanged but the widgets have been scaled down.
+</figcaption>
+</figure>
+<p>In these examples the grid was set explicitly to <code>min-cols:4</code> but strictly speaking that was not
+necessary because the width of the grid is constrained so it always has at least as many columns
+as the widest widget, which are the 4-column graphs in this example.
+The non-intuitive part here is that it's not just the wide widget that may exceed the
+width of the screen but the grid as a whole and thus other small widgets may be off-screen too
+if the 0.75x shrink is insufficient.</p>
+<h2 id="panels_1">Panels</h2>
+<p>Panels also display a two dimensional grid but the number of columns is fixed and are of half the
+size of grid columns. Panels are placed into a grid just like widgets
+(from the grid's point of view a panel is a widget) thus they span a fixed number of grid columns
+and rows. A panel then has twice the number of columns for its internal grid and an arbitrary number
+of rows.
+The columns are generally equal-width (CSS has its quirks...) and the rows are minimal-height
+with extra space equally distributed.</p>
+<p>The background of a panel can be either solid or transparent. A transparent background gives the
+look of a number of widgets that are grouped together while a solid background eliminates boundaries
+between widgets and makes the panel look like a larger compound widget.</p>
+<figure>
+<p><img alt="panel with transparent background" src="../panel3.png" width="380" /></p>
+<figcaption>Panel with 7 widgets and transparent background used to force a fixed layout
+of the widgets as the panel acts like a big widget in terms of reflowing in the grid.
+The 7 widgets in the panel can be distinguished clearly.
+The panel is 3 grid columns wide and it itself has 6 columns for its widgets.
+The widgets in the top row are 3 cols wide while the ones in the second row are 2 cols wide.
+All the widgets are 1 row high making them all equal height.
+</figcaption>
+</figure>
+<figure>
+<p><img alt="panel with solid background" src="../panel1.png" width="489" /></p>
+<figcaption>Panel with 19 widgets and solid background making it look like one big widget.
+Using a panel like this can avoid having to develop a custom widget.
+</figcaption>
+</figure>
+<figure>
+<p><img alt="panel with solid background" src="../panel2.png" width="484" /></p>
+<figcaption>Same panel as above with edit mode turned on showing the boundaries (and edit
+buttons) of all the widgets.
+</figcaption>
+</figure>
+<h2 id="pop-up-grids">Pop-up grids</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Pop-up grids are very experimental, their behavior may change.</p>
+</div>
+<p>A pop-up grid is a grid that is shown as a modal overlay over the page with the background
+greyed out. It is opened (popped-up) via a message from Node-RED and it can be closed either
+using an close button ("X") in the top-right or using another message.
+To be more precise, the modal overlay covers the entire context of the tab leaving the tab bar
+functional so the user can move to another tab and come back.</p>
+<p>The width of the pop-up can fill the width of the page, up to the max-cols setting.
+It is generally necessary to reduce max-cols to avoid awkward blank space at the right of the
+pop-up.
+The height of the pop-up is governed by its contents.
+The layout within the grid functions the same way as for normal grids, in fact, the content of
+the pop-up is a standard grid component.</p>
+<p>To control the grid a "FlexDash ctrl" node is required in Node-RED and it must be associated with
+the pop-up grid.
+The grid can be shown or hidden by sending the ctrl node a message with <code>msg.show = true/false</code>.
+When the grid is close via the close button its corresponding ctrl widget emits a message with
+<code>msg.payload = { show: false }</code>.</p>
+<h2 id="tips-and-tricks">Tips and tricks</h2>
+<h3 id="creating-compound-widgets">Creating compound widgets</h3>
+<p>An example of a compound widget is shown ine the figure above. Some of the tricks used are:</p>
+<ul>
+<li>label widgets are useful to place text because they provide control over font size and
+  text alignment, e.g. the "Day:", "Night:" labels</li>
+<li>stat widgets without title are useful to display set points and other control values</li>
+<li>use buttons with icons to implement actions</li>
+</ul>
+<h3 id="creating-mobile-layouts">Creating mobile layouts</h3>
+<p>Narrow cell phone screens are approx 3 grid columns wide, setting min-cols on a grid to 3
+forces this even on phones that show a smidge under 3 columns and enables the scaling to
+"micro-adjust" the difference.</p>
+<p>Grouping widgets into panels that are 3 cols wide creates a type of card layout that works
+well both on narrow phone screens as well as "normal" desktop screens, setting max-cols to
+6 or 9 avoids awkward super-wide layouts.</p>
+<figure>
+<p><img alt="panels for phone on desktop" src="../mobile1.png" width="696" /></p>
+<figcaption>Tab with phone-friendly layout consisting of 3 panels and 2 plots that are all 3
+columns wide. The grid is set to max-cols=6 so in a desktop window the panels end up organized
+2-wide. (Note: this screen shot was taken before the grid scaling was implemented, with scaling
+the grid content would magnify slightly to take up the entire width.)
+</figcaption>
+</figure>
+<figure>
+<p><img alt="panels for phone on phone" src="../mobile2.png" width="293" /></p>
+<figcaption>The same layout viewed on a narrow phone shows the panels laid out vertically
+one after the other.
+</figcaption>
+</figure>
+<p>Many widgets can be maximized, thus a graph can be presented in a relatively small
+widget and the user can maximize it to view the details, the same applies to the markdown
+widget and others.</p>
+<figure>
+<p><img alt="panels for phone zoomed" src="../mobile3.png" width="293" /></p>
+<figcaption>The same layout again with one of the plots maximized.
+</figcaption>
+</figure>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>

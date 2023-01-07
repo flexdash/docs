@@ -1,0 +1,1039 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../vuetify-primer/">
+      
+      
+        <link rel="next" href="../widget-config/">
+      
+      <link rel="icon" href="../../docs.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+    
+    
+      
+        <title>Mirror state -- don't send messages - FlexDash</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.f56500e0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mirror-state-dont-send-messages" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="FlexDash" class="md-header__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            FlexDash
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Mirror state -- don't send messages
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="FlexDash" class="md-nav__button md-logo" aria-label="FlexDash" data-md-component="logo">
+      
+  <img src="../../docs.png" alt="logo">
+
+    </a>
+    FlexDash
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../known-issues/" class="md-nav__link">
+        Known Issues
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../quick-start/">Quick Start</a>
+          
+            <label for="__nav_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Quick Start" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Quick Start
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/docker/" class="md-nav__link">
+        Docker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../using-flexdash/">Using FlexDash</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Using FlexDash" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Using FlexDash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/core-concepts/" class="md-nav__link">
+        Core Concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/grid-panel-layout/" class="md-nav__link">
+        Grid and Panel layout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/iframes/" class="md-nav__link">
+        IFrames
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/edit-mode/" class="md-nav__link">
+        Edit Mode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/nr-subflows/" class="md-nav__link">
+        Node-RED Subflows
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/array-widgets/" class="md-nav__link">
+        Array Widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/colors/" class="md-nav__link">
+        Colors and themes
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../using-flexdash/time-plots/" class="md-nav__link">
+        Customizing Time Plots
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Developing Widgets</a>
+          
+            <label for="__nav_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Developing Widgets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Developing Widgets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        Quickly modify an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../imports/" class="md-nav__link">
+        Imports in custom widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vue-primer/" class="md-nav__link">
+        Vue primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vue-extensions/" class="md-nav__link">
+        Extensions to Vue components
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vuetify-primer/" class="md-nav__link">
+        Vuetify Primer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Mirror state -- don't send messages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Mirror state -- don't send messages
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stat-widget-example" class="md-nav__link">
+    Stat widget example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-series-plot-example" class="md-nav__link">
+    Time series plot example
+  </a>
+  
+    <nav class="md-nav" aria-label="Time series plot example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-the-full-data-set" class="md-nav__link">
+    Update the full data set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-a-row-to-the-data" class="md-nav__link">
+    Append a row to the data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-old-data-points" class="md-nav__link">
+    Remove old data points
+  </a>
+  
+    <nav class="md-nav" aria-label="Remove old data points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../widget-config/" class="md-nav__link">
+        Configuring widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../npm-start/" class="md-nav__link">
+        Create an NPM package from an existing widget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../node-generator/" class="md-nav__link">
+        Generating nodes from widgets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background/" class="md-nav__link">
+        Background and Implementation Details
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stat-widget-example" class="md-nav__link">
+    Stat widget example
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-series-plot-example" class="md-nav__link">
+    Time series plot example
+  </a>
+  
+    <nav class="md-nav" aria-label="Time series plot example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-the-full-data-set" class="md-nav__link">
+    Update the full data set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-a-row-to-the-data" class="md-nav__link">
+    Append a row to the data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-old-data-points" class="md-nav__link">
+    Remove old data points
+  </a>
+  
+    <nav class="md-nav" aria-label="Remove old data points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    Notes:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="mirror-state-dont-send-messages">Mirror state -- don't send messages</h1>
+<p>Node-RED and FlexDash communicate by mirroring state, not by sending messages.
+(At least, that's the abstraction that FlexDash provides to nodes and widgets,
+underneath there are indeed messages being sent.)</p>
+<p>In Node-RED flows everything happens via messages.
+One node sends a message to another, that one does something, and sends messages of its own.
+This works great because there is one single run-time.
+When dealing with browsers, however, there may be multiple browsers connected which
+is typically dealt with by multicasting messages to all of them.
+However, browsers also come and go, and when a new browser connects it needs to be initialized
+so it looks the same as the others and so it can meaningfully follow the flow of messages from there on.</p>
+<p>The abstractions provided by FlexDash solve this issue by caching the state of the dashboard on
+the server side, i.e. in Node-RED.
+When a new browser connects, it is initialized with the current state of the dashboard from the
+cache and can thereafter accept changes to the state like other already-connected browsers.</p>
+<p>So the important concept here is that messages modify the state of the dashboard
+<em>held in the cache in Node-RED</em>.
+From that cache the node-red-flexdash plugin mirrors this state to all browsers so they
+always have up-to-date data, and then inside of FlexDash (on the browser side) Vue propagates
+that state to all the widgets, which then propagate it to the DOM.
+This means that messages that arrive at a FlexDash node in Node-RED should modify that dashboard state,
+and then these state changes ripple their way through to browsers, to Vue, to widgets,
+to the DOM, and finally to the screen.</p>
+<h2 id="stat-widget-example">Stat widget example</h2>
+<p><img align="right" alt="Stat widget" src="../comm-1.png" width="25%" />
+The (simplified) stat widget used for this example has 3 properties: title, payload, and color.
+It displays a title at the top and the payload as value in the chosen color.</p>
+<p>Internally, the stat <em>node</em> simply copies the three props from an incoming
+message to the state of the dashboard. Something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">this</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// Node-RED message input handler</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">msg</span><span class="p">)</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">title</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">msg</span><span class="p">)</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">)</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">msg</span><span class="p">)</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">color</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div>
+<p>Here the variable <code>widget</code> is a reference to the WidgetAPI object that the node gets from
+node-red-flexdash in order to be able to modify the cached state for its widget.</p>
+<p>Given a message like <code>msg = { color: "red", payload: 42 }</code> the state of the dashboard cached in
+the node-red-flexdash plugin might end up with something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="p">...,</span>
+<span class="w">  </span><span class="s2">&quot;widgets&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;stat-1&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Temperature&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// unchanged</span>
+<span class="w">      </span><span class="s2">&quot;payload&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">42</span><span class="p">,</span><span class="w"> </span><span class="c1">// just changed</span>
+<span class="w">      </span><span class="s2">&quot;color&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;red&quot;</span><span class="w"> </span><span class="c1">// just changed</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="s2">&quot;stat-2&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// all unchanged</span>
+<span class="w">      </span><span class="s2">&quot;title&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Humidity&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;payload&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">34</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;color&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;green&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Assuming that <code>widgets['stat-1'].payload</code> and <code>widgets.['stat-1'].color</code> indeed just changed
+value then the plugin would send a message to all browsers with those two new values.
+A browser that newly connects after all this would receive the full state and be up-to-date.</p>
+<h2 id="time-series-plot-example">Time series plot example</h2>
+<p><img align="right" alt="TimePlot widget" src="../comm-2.png" width="40%" />
+The stat example is very simple because it only deals with plain values.
+A time series plot has more complicated state:
+this example uses a simplified TimePlot widget that has 3 properties: title, payload, and labels.
+The title is a simple string and can be handled like in the stat example.
+The labels are an array of strings, one label for each time-series.</p>
+<p>The payload holds the series for the plot in a row-wise configuration, that is, payload is
+an array where each element is again an array holding a timestamp and one value per series:</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">[</span><span class="w"> </span><span class="mf">1234567890</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">100</span><span class="w"> </span><span class="p">],</span><span class="w"> </span><span class="c1">// timestamp, series 1, series 2, series 3</span>
+<span class="w">  </span><span class="p">[</span><span class="w"> </span><span class="mf">1234567891</span><span class="p">,</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="mf">2.5</span><span class="p">,</span><span class="w"> </span><span class="mf">99</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="p">]</span>
+</code></pre></div>
+<p>The labels can be handled quite simply because the props can hold arbitrary JSON-compatible
+data structures.
+So a simple assignment works just fine (in a real implementation it may be helpful to perform
+some validation first):</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nx">msg</span><span class="p">)</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">labels</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="update-the-full-data-set">Update the full data set</h3>
+<p>For the payload we need to contemplate two different cases: the input message holds a full data set
+(i.e. a 2D array with all the data points to display) or it holds a single data point (i.e. a 1D
+array) that should be appended to the existing data.</p>
+<p>The first case can be handled with a simple assignment (assuming an appropriate implementation
+of the <code>is2DArray</code> helper function):</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">is2DArray</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">))</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="append-a-row-to-the-data">Append a row to the data</h3>
+<p>The second case can be handled by appending the new data point to the existing array:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">is1DArray</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">widget</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="c1">// same functionality as Array.push()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>An alternate implementation is to use the <code>set</code> method using an index one past the last
+existing element of the array:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">is1DArray</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">).</span><span class="nx">length</span>
+<span class="w">  </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="sb">`payload/</span><span class="si">${</span><span class="nx">length</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="c1">// basically data[data.length] = payload</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>This takes advantage of the fact that the <code>set</code> method accepts a prop path that can walk down
+into the data structure of a prop and that <code>/</code> is used instead of <code>[..]</code> to index into
+arrays and objects.</p>
+<p>In either of these two implementations the end effect is that the node-red-flexdash plugin will send
+just the new value to connected browsers.</p>
+<h3 id="remove-old-data-points">Remove old data points</h3>
+<p>All this leaves one more operation, which is to remove old data points when the amount of data 
+exceeds what the widget can reasonably display, say 100 data points.</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">is1DArray</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">).</span><span class="nx">length</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">i</span><span class="o">=</span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">&lt;</span><span class="mf">100</span><span class="o">-</span><span class="nx">length</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">shift</span><span class="p">(</span><span class="sb">`payload`</span><span class="p">)</span><span class="w"> </span><span class="c1">// see as Javascript Array.shift()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>An important implementation detail here is that the <code>shift</code> operation is sent as operation
+to the browsers so they all perform a shift on the array, no array values are transferred.
+In contrast, the following implementation would send the entire array to all browsers:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// DO NOT DO THIS!</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">is1DArray</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">payload</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">widget</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">)</span>
+<span class="w">      </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">payload</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">100</span><span class="p">)</span><span class="w"> </span><span class="nx">payload</span><span class="p">.</span><span class="nx">shift</span><span class="p">()</span>
+<span class="w">      </span><span class="nx">widget</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;payload&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">payload</span><span class="p">)</span><span class="w"> </span><span class="c1">// sends the entire array: every element has changed</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre></div>
+<h4 id="notes">Notes:</h4>
+<p>The widget API currently has a very limited set of operations, but this can be extended
+as more use-cases develop.</p>
+<p>The widget API is not currently available in custom widgets.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.sections", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5cf534bf.min.js"></script>
+      
+    
+  </body>
+</html>
